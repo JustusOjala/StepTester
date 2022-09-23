@@ -13,10 +13,11 @@ int main(){
 	uint i;
 	//Spin in one direction
 	PORTB |= 0x08;
-	//Go through all 8 step settings
+	//Go through all 8 microstep settings
 	for(i = 0; i < 8; i++){
 		PORTA = i;
-		PORTB &= 0xFF - ~i << 4;
+		PORTB = (PORTB & 0x8F) + (i << 4);
+		fail = 0;
 
 		//Spin 1000 steps
 		for(uint j = 0; j < 1000; j++){
@@ -29,10 +30,10 @@ int main(){
 
 	//Spin in the other direction
 	PORTB &= 0xF7;
-	//Go through all 8 step settings
+	//Go through all 8 microstep settings
 	for(i = 0; i < 8; i++){
 		PORTA = i + 0x08;
-		PORTB &= 0xFF - ~i << 4;
+		PORTB = (PORTB & 0x8F) + (i << 4);
 
 		//Spin 1000 steps
 		for(uint j = 0; j < 1000; j++){
